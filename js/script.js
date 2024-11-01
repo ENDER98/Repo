@@ -6,6 +6,46 @@ const search = document.getElementById("search");
 const main = document.getElementById("main");
 
 
+async function getInfoRepo() {
+
+    try {
+
+        const url_api = APIRURL + 'hanz-saenz';
+        const user = await axios(url_api);
+        getRepos('hanz-saenz');
+        const cardHtml= `
+        <div class="card">
+            <img src="${user.data.avatar_url}" alt="${user.data.login}" class="avatar">
+        
+            <div class="user-info">
+                <h2>${user.data.login}</h2>
+                <p>${user.data.bio}</p>
+
+                <ul>
+                    <li>${user.data.followers} <strong>Followers</strong></li>
+                    <li>${user.data.following} <strong>Following</strong></li>
+                    <li>${user.data.public_repos} <strong>Repos</strong></li>
+                </ul>
+
+                <div id="repos"></div>
+            </div>
+        </div>
+        `;
+
+        main.innerHTML = cardHtml;
+
+    } catch (error) {                
+        console.log(error);
+    }
+
+
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    getInfoRepo();
+});
+
+
 async function getUser(username) {
 
     try {
